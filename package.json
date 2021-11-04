@@ -1,0 +1,32 @@
+{
+  "name": "partyline",
+  "version": "1.0.0",
+  "description": "Partyline is a real-time topic-based group chat system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeBootCamp13/partyline.git"
+  },
+  "keywords": [
+    "chat",
+    "node"
+  ],
+  "author": "CBC 13 Class Project",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/CodeBootCamp13/partyline/issues"
+  },
+  "homepage": "https://github.com/CodeBootCamp13/partyline#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
