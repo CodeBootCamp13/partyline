@@ -3,10 +3,16 @@ body {
 	color:#DBDBDB;
 	display: flex;
 	flex-direction: row;
+	margin: 0px;
+}
+
+h2 {
+	padding: 40px;
 }
 
 .sidebar {
 	margin: 0px;
+	padding: 0px;
 	background-color: #282F39;
 	width: 10vw;
 	height: 100vh;
@@ -14,6 +20,10 @@ body {
 
 .content {
 	width: 100vw;
+}
+
+.main {
+	display: flex;
 }
 
 .topbar {
@@ -27,7 +37,7 @@ body {
 
 .sidemenu {
 	background-color: #3B4555;	
-	padding: 10px;
+	padding: 0px;
 	width: 10vw;
 	height: 100vh;
 }
@@ -40,6 +50,11 @@ body {
 
 .message {
 	background-color: #37404D;
-	padding: 5px;
+	padding: 0px;
 	border: 1px solid;
+}
+
+.join {
+	margin: 0px;
+	padding: 0px;
 }
