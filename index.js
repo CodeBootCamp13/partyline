@@ -22,6 +22,15 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
+// create a party page
+app.get('/party', (req, res) => {
+	res.render('createParty');
+});
+app.post('/party', (req, res) => {
+	// todo (this will be where we handle this)
+	res.send('coming soon');
+});
+
 // route to load/display a chat room party
 app.get('/party/:party_id', (req, res) => {
 	console.log(req.params);
