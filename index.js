@@ -50,6 +50,9 @@ app.get('/party/:party_id', (req, res) => {
 
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
+	connection.query('INSERT INTO message VALUES ?', post (err, results) => {
+		}
+	)
 	res.redirect('/party/' + req.params.party_id);
 });
 
