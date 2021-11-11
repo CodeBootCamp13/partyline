@@ -30,6 +30,10 @@ h2 {
 	background-color: #333B48;
 }
 
+.logo img { 
+	height: 100px;
+}
+
 .search {
 	display: flex;
 	justify-content: flex-end;
