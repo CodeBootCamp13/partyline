@@ -41,13 +41,12 @@
             </div>
         </div>
             <div class="createParty">  
-                <form id="partyCreation" action="" method="post">
+                <form id="partyCreation" action="/party" method="post">
                     <h3>Create New Party</h3>
                     <fieldset>
-                        <input placeholder="Your Username" type="text" tabindex="1" required autofocus>
-                        <input placeholder="Party Title" type="text" tabindex="2" required>
-                        <textarea placeholder="Party description goes here..." tabindex="5" required></textarea>
-                        <button name="submit" type="submit" id="partySubmit"> Submit </button>
+						<input placeholder="Party Title" name="name" type="text" tabindex="2" required>
+						<textarea placeholder="Party description goes here..." name="description" tabindex="5" required></textarea>
+						<input type="submit" value="Create Party">
                     </fieldset>
                 </form>
             </div>
