@@ -27,7 +27,11 @@ app.get('/party', (req, res) => {
 	res.render('createParty');
 });
 app.post('/party', (req, res) => {
-	// todo (this will be where we handle this)
+
+	connection.query('INSERT INTO parties (parent_id, user_id, party_name, description) VALUES (?,?,?,?)', 
+	[req.params.parent_id, user_id, party_name, description, req.body.newParty], (err, results) => {
+		res.redirect('/party/' + req.params.party_id);
+		
 	res.send('coming soon');
 });
 

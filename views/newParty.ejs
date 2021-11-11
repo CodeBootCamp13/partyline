@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PartyLine</title>
+    <link rel="stylesheet" href="/css/partyline.css">
+
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/images/partyline_logo_horizontal-03.png">
+        </div>
+    </div>   
+    </div class="main">
+        <div class="join">
+            <a href="/party">Join A New Party</a>
+                <div class="newParties">
+                    <div class="newParty">
+                        <% for ( let i = 0; i < name.length; i++ ) { %>
+                        <div class="newParty"> 
+                            <div class="parent_id"><%= parent_id[i].sent_on %></div>
+                            <div class="user_id"><%= user_id[i].sent_on %></div>
+                            <div class="party_name">Party Name<%= name[i].user_id %></div>
+                            <div class="description"><%= description[i].sent_on %></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
