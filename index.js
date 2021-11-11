@@ -50,7 +50,10 @@ app.get('/party/:party_id', (req, res) => {
 
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
-	res.redirect('/party/' + req.params.party_id);
+	let user_id = 1; // TODO(erh): fix this when we implement user accounts.
+    connection.query('INSERT INTO messages (party_id, user_id, message) VALUES (?,?,?)', [req.params.party_id, user_id, req.body.newMessage], (err, results) => {
+		res.redirect('/party/' + req.params.party_id);
+    });
 });
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
