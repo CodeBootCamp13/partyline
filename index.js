@@ -50,7 +50,10 @@ app.get('/party/:party_id', (req, res) => {
 
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
+    connection.query('INSERT INTO messages (party_id, message) VALUES (?,?,)', [req.params.party_id, message], (err, results) => {
+        console.log(results)
 	res.redirect('/party/' + req.params.party_id);
+    });
 });
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
