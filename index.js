@@ -27,8 +27,10 @@ app.get('/party', (req, res) => {
 	res.render('createParty');
 });
 app.post('/party', (req, res) => {
-	// todo (this will be where we handle this)
-	res.send('coming soon');
+	console.log(req.body.partyName);
+	connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [1234, 5678, req.body.newParty, newPartyDescription], (err, results) => {
+		res.redirect('/party/' + req.partyName);
+    });
 });
 
 // route to load/display a chat room party
