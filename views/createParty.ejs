@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PartyLine</title>
+    <link rel="stylesheet" href="/css/partyline.css">
+
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">
+            <img src="/images/partyline_logo_horizontal-03.png">
+        </div>
+        <div class="groups">
+            <ul>
+                <li>Baseball</li>
+                <li>World Series</li>
+                <li>Group Chat 3</li>
+                <li>Group Chat 4</li>
+                <li>Group Chat 5</li>
+                <li>Group Chat 6</li>
+                <li>Group Chat 7</li>
+                <li>Group Chat 8</li>
+            </ul>
+        </div>
+        <div class="join">
+            <a href="/party">Join A New Party</a>
+        </div>
+        <div class="createParty">
+            <form method="post" action="/party">
+                <label for="createParty">Create a new Party</label>
+                <input type="text" name="createParty">
+                <label for="partyDescription">Short Description</label>
+                <input type="text" name="partyDescription">
+                
+            </form>
+        </div>
+    </div>
+    <div class="content">
+        <div class="topbar">
+            <div class="userprofile">
+                <a href="#">User 1 Profile</a>
+                <a href="#">Settings</a>
+                <a href="#">Help</a>
+            </div>
+            <div class="search">
+                <input type="search" id="search" name="search" placeholder="Search for Groups...">
+            </div>
+        </div>
+        <div class="main">
+            <div class="sidemenu">
+                <h2><%= partyName %></h2>
+                <p><%= partyDescription %></p>
+                <ul>
+                    <li>#Braves</li>
+                    <li>#World Series</li>
+                </ul>
+            </div>
+            <div class="chat">
+                <div class="messages">
+                    <% for ( let i = 0; i < messages.length; i++ ) { %>
+                    <div class="message"> 
+                        <div class="username">User <%= messages[i].user_id %></div>
+                        <div class="timestamp"><%= messages[i].sent_on %></div>
+                        <div class="messageText"><%= messages[i].message %></div>
+                    </div>
+					<% } %>
+                </div>
+                <div class="chatform">
+                    <div class="newMessage">
+                        <form method="post" action="/party/<%= partyId %>">
+                            <label for="newMessage"></label>
+                            <input type="text" id="newMessage" name="newMessage" placeholder="Message Goes Here...">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
