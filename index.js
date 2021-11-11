@@ -1,9 +1,9 @@
 const express = require('express');
+const mysql   = require('mysql2');
 
 const app = new express();
 
-const mysql = require('mysql2');
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
 	database: 'partyline',
@@ -22,37 +22,35 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
-//displays users parties by username (/username)
-app.get('/user/:username', (req, res) => {
-	console.log('user page');
-	res.render('index');
+// route to load/display a chat room party
+app.get('/party/:party_id', (req, res) => {
+	console.log(req.params);
+	// query the database to fetch the name/description of the party
+	// requested in the URL
+	connection.query(
+		'SELECT name,description FROM parties WHERE id = ?', 
+		[ req.params.party_id ], 
+		(err, results) => {
+		console.log(results[0]);
+
+		let templateArgs = { 
+			partyId: req.params.party_id,
+			partyName: results[0].name, 
+			partyDescription: results[0].description,
+			messages: []
+		};
+
+		connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
+			templateArgs.messages = results;
+			res.render('party', templateArgs);
+		});
+		
+	});
 });
 
-//displays selected party messages (/username/party)
-app.get('/user/:username/party', (req, res) => {
-	console.log('user party messages');
-	res.render('index');
-});
-
-//create a new party
-app.post('/party', (req, res) => {
-	console.log('create a party');
-	res.render('index');
-});
-
-//create a new message
 app.post('/party/:party_id', (req, res) => {
-	console.log('post new message to a party');
-	res.render('index');
+	// write the code to store a new message to the messages table.
+	res.redirect('/party/' + req.params.party_id);
 });
-
-//deleting parties
-app.delete('/party/:party_id', (req, res) => {
-	res.render('index');
-});
-
-// create a route for part search function
-
-
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
