@@ -51,6 +51,11 @@ app.get('/party/:party_id', (req, res) => {
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
 	res.redirect('/party/' + req.params.party_id);
+
+	const msg = document.getElementsByClassName('message');
+	connection.push(msg,function (err, data) { 
+		if (err) throw err;
+		   console.log('msg')
 });
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
