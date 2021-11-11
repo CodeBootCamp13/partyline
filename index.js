@@ -50,6 +50,10 @@ app.get('/party/:party_id', (req, res) => {
 
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
+	this.db.query('INSERT INTO messages (party_id, user_id, message) VALUES (?,?,?)',[req.params.party_id, req.params.user_id, req.params.message], (err, results) => {
+		console.log(results);
+		console.log(err)
+	})
 	res.redirect('/party/' + req.params.party_id);
 });
 
