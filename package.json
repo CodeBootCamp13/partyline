@@ -24,7 +24,8 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-    "mysql2": "^2.3.2"
+    "mysql2": "^2.3.2",
+    "partyline_chat": "git+https://github.com/CodeBootCamp13/partyline_chat.git"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
