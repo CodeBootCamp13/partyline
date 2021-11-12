@@ -28,10 +28,10 @@ app.get('/party', (req, res) => {
 });
 app.post('/party', (req, res) => {
 	// todo (this will be where we handle this)
-	var user_id = 1
+	var user_id = 1;
 	connection.query('INSERT INTO parties (user_id, name, description) VALUES (?,?,?)', [user_id, req.body.name, req.body.description], (err, results) =>{
-		console.log(result.insertId)
-		res.redirect('/party/'+ result.insertId)
+		console.log(results.insertId);
+		res.redirect('/party/'+ results.insertId);
 	});
 });
 
