@@ -27,11 +27,14 @@ app.get('/party', (req, res) => {
 	res.render('createParty');
 });
 app.post('/party', (req, res) => {
-	// todo (this will be where we handle this)
-	res.send('coming soon');
+	let user_id = 1;
+    connection.query('INSERT INTO messages (party_id, user_id, message) VALUES (?,?,?)', [req.params.party_id, user_id, req.body.name], (err, results, fields) => {
+		res.redirect('/party/' + results[0]);
+    });
 });
 
 // route to load/display a chat room party
+/*
 app.get('/party/:party_id', (req, res) => {
 	console.log(req.params);
 	// query the database to fetch the name/description of the party
@@ -55,7 +58,7 @@ app.get('/party/:party_id', (req, res) => {
 		});
 		
 	});
-});
+});*/
 
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
