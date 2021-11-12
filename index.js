@@ -1,3 +1,4 @@
+const { name } = require('ejs');
 const express = require('express');
 const mysql   = require('mysql2');
 
@@ -25,6 +26,13 @@ app.get('/', (req, res) => {
 // create a party page
 app.get('/party', (req, res) => {
 	res.render('createParty');
+	
+	let user_id = 1; // need a database
+    connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', 
+	[req.params.parent_id, user_id, req.body.name, description, req.body.createParty], (err, results) => {
+		res.redirect('/party/' + req.params.result.insertId);
+
+	
 });
 app.post('/party', (req, res) => {
 	// todo (this will be where we handle this)
