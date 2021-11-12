@@ -28,7 +28,10 @@ app.get('/party', (req, res) => {
 });
 app.post('/party', (req, res) => {
 	// todo (this will be where we handle this)
-	res.send('coming soon');
+	let user_id = 1; // TODO(erh): fix this when we implement user accounts.
+    connection.query('INSERT INTO parties (user_id, name, description) VALUES (?,?,?)', [req.params.user_id, req.body], (err, results) => {
+		res.redirect('/party/NEW_INSERT_ID' + req.params.user_id);
+    });
 });
 
 // route to load/display a chat room party
