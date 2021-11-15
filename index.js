@@ -70,11 +70,18 @@ app.post('/party/:party_id', (req, res) => {
 });
 
 app.get('/search', (req, res) => {
+	let templateArgs = { 
+		Id: results[0].Id,
+		partyId: results[0].partyId, 
+		userId: results[0].userId,
+		messages: [],
+		sent_on: results[0].sent_on
+	};
 
-	// TODO: need a search.ejs template to display our search results
-	// TODO: to actually process the query in our database and render those results on our template.
-
-	res.send('search');
+	connection.query('SELECT * FROM messages WHERE message LIKE ?', [ req.params.search ], (err, results) => {
+		templateArgs.messages = results;
+		res.send('search', templateArgs);
+	});
 });
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
