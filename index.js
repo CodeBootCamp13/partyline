@@ -69,4 +69,8 @@ app.post('/party/:party_id', (req, res) => {
     });
 });
 
-app.listen(3000, () => console.log('Server is up on port 3000'))
+app.get('/search', (req, res) => {
+	res.render('search');
+});
+
+app.listen(4000, () => console.log('Server is up on port 4000'))

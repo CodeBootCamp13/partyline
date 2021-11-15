@@ -62,3 +62,11 @@ h2 {
 	margin: 0px;
 	padding: 0px;
 }
+
+.results {
+	display:flex;
+}
+
+.partyResults{
+	border-radius: 0 2px 0 0 solid black;
+}
