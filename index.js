@@ -74,7 +74,7 @@ app.get('/search', (req, res) => {
 	// TODO: need a search.ejs template to display our search results
 	// TODO: to actually process the query in our database and render those results on our template.
 
-	res.send('search');
+	res.render('search');
 });
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
