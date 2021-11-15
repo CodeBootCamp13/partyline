@@ -62,3 +62,33 @@ h2 {
 	margin: 0px;
 	padding: 0px;
 }
+
+#searchpartyTitle{
+	color:#282F39;
+	padding: 2rem;
+}
+
+th{
+	padding-right: 5rem;
+	align-items: center;
+}
+
+td{
+	padding-right: 5rem;
+}
+
+.results {
+	display: flex;
+}
+
+.messageResults {
+	color:#282F39;
+	padding: 2rem;
+	width: 40vw;
+}
+
+.searchMessage {
+	background-color: #eee;
+	border-bottom: 1px solid black;
+	margin: 10px 0;
+}
