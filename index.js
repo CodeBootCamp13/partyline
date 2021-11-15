@@ -74,6 +74,7 @@ app.get('/search', (req, res) => {
 	// TODO: need a search.ejs template to display our search results
 	// TODO: to actually process the query in our database and render those results on our template.
 	// connection.query 
+	// SELECT id,party_id,user_id,message,sent_on FROM partyline.messages WHERE message LIKE '%test%';
 	res.render('search');
 });
 
