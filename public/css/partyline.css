@@ -62,3 +62,19 @@ h2 {
 	margin: 0px;
 	padding: 0px;
 }
+
+#searchpartyContainer {
+	background-color: #282F39;
+	display: flex;
+	justify-content: center;
+}
+
+#searchParty{
+	padding: 10px;
+}
+
+.searchpartyButton{
+	background-color: #DBDBDB;
+	color: #282F39;
+	border: solid 1px #DBDBDB;
+}
