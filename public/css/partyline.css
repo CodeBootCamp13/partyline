@@ -62,3 +62,30 @@ h2 {
 	margin: 0px;
 	padding: 0px;
 }
+
+.searchpartyTitle{
+	box-sizing: border-box;
+}
+
+.searchParty {
+	margin: 4px;
+	padding: 8px;
+	width: 700px;
+	max-width: 100%;
+	margin: auto;
+	background-color: lightblue;
+	border: 1px solid transparent;
+}
+
+button:hover {
+	padding: 2px 4px;
+    color: red;
+    background-color: wheat;
+    border: 1px solid black;
+    border-radius: 4px;
+	cursor: pointer;
+}
+
+
+
+
