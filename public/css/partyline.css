@@ -87,7 +87,8 @@ td{
 	width: 40vw;
 }
 
-searchMessage {
-	background-color: white;
-	border-bottom: 3px solid black;
+.searchMessage {
+	background-color: #eee;
+	border-bottom: 1px solid black;
+	margin: 10px 0;
 }
