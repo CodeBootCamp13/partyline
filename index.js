@@ -36,6 +36,14 @@ app.post('/party', (req, res) => {
 	});
 });
 
+app.get('/login', (req, res) => {
+	res.render('login');
+});
+app.post('/login', (req, res) => {
+	// TODO(actually let us log in)
+	res.render('login');
+});
+
 // route to load/display a chat room party
 app.get('/party/:party_id', (req, res) => {
 	console.log(req.params);
