@@ -33,8 +33,15 @@ app.use(function(req, res, next) {
 
 	});
 
-	// if we are logged in, grab a list of the parties we are subscribed to
+	// subscribe to party
+	app.post('/user_parties', (req, res) => {
+    connection.query('INSERT INTO messages (party_id, user_id,) VALUES (?,?)', [req.params.party_id, req.params.user_id], (err, results) => {
+		res.redirect('/user_parties/' + req.params.user_id);
+    });
 });
+
+	// if we are logged in, grab a list of the parties we are subscribed to
+	
 
 //displays main screen
 app.get('/', (req, res) => {
