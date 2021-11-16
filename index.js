@@ -6,6 +6,7 @@ const app = new express();
 const connection = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
+	password: 'root',
 	database: 'partyline',
 	waitForConnections: true,
 	connectionLimit: 10,
@@ -108,4 +109,18 @@ app.get('/search', (req, res) => {
 	
 });
 
+
+app.get('/account', (req, res) =>{
+	res.render('account')
+})
+
+app.post('/account', (req, res) => {
+	connection.query('INSERT INTO users (first_name, last_name, email, username, password) VALUES (?,?,?,?,?)', [req.body.first_name, req.body.last_name, email, username, password], (err, results) => {
+		console.log(req.body)
+		res.redirect('/search' )
+	} )
+})
+
 app.listen(3000, () => console.log('Server is up on port 3000'))
+
+
