@@ -35,6 +35,18 @@
             <div class="sidemenu">
                 <h2><%= partyName %></h2>
                 <p><%= partyDescription %></p>
+				<%
+				let amSubscribed = false;
+				for ( let i = 0; i < partyMenu.length; i++ ) {
+					if ( partyMenu[i].id == partyId ) {
+						amSubscribed = true;
+					}
+				}
+				
+				if ( ! amSubscribed ) { 
+				%> 
+				<form method="post" action="/subscribe/<%= partyId %>"><input type="submit" value="Join Party"></form>
+				<% } %>
                 <ul>
                     <li>#Braves</li>
                     <li>#World Series</li>
