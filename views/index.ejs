@@ -13,18 +13,7 @@
         <div class="logo">
             <img src="/images/partyline_logo_horizontal-03.png">
         </div>
-        <div class="groups">
-            <ul>
-                <li>Baseball</li>
-                <li>World Series</li>
-                <li>Group Chat 3</li>
-                <li>Group Chat 4</li>
-                <li>Group Chat 5</li>
-                <li>Group Chat 6</li>
-                <li>Group Chat 7</li>
-                <li>Group Chat 8</li>
-            </ul>
-        </div>
+        <%- include('partials/partyMenu') %>
         <div class="join">
             <button type="button">Join A New Party</button>
         </div>
@@ -37,7 +26,7 @@
                 <a href="#">Help</a>
             </div>
             <div class="search">
-                <input type="search" id="search" name="search" placeholder="Search for Groups...">
+                <%- include('partials/searchBar') %>
             </div>
         </div>
         <div class="main">

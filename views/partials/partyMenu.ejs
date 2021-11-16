@@ -1,0 +1,7 @@
+<div class="groups">
+	<ul>
+		<% for ( let i = 0; i < partyMenu.length; i++ ) { %>
+		<li><a href="/party/<%= partyMenu[i].id %>"><%= partyMenu[i].name %></a></li>
+		<% } %>
+	</ul>
+</div>
