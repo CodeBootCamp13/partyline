@@ -27,15 +27,13 @@ app.use(function(req, res, next) {
 
 		console.log(results);
 
-		res.locals.parties = results;
+		res.locals.partyMenu = results;
 
 		next();
 
 	});
 
 	// if we are logged in, grab a list of the parties we are subscribed to
-
-	
 });
 
 //displays main screen
