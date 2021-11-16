@@ -79,11 +79,14 @@ app.get('/search', (req, res) => {
 	console.log(searchQuery);
 	searchQuery = '%' + searchQuery + '%';
 
+	// TODO: search for parties as well... 
+	let templateObj = { messages: [], parties: [] };
 	connection.query(
 		'SELECT id,party_id,user_id,message,sent_on FROM messages WHERE message LIKE ?',
 		[ searchQuery ],
 		(err, results) => {
-			res.render('search', { messages: results });
+			templateObj.messages = results;
+			res.render('search', templateObj);
 		} 
 	);
 
