@@ -87,6 +87,7 @@
                 </div> 
             <div class="messageResults">
                 <h1> Message Results</h1>
+                <% if(true){ %>
                 <% for ( let i = 0; i < messages.length; i++ ) { %>
                 <div class="searchMessage"> 
                     <div class="username"><%= messages[i].user_id %></div>
@@ -94,6 +95,9 @@
                     <div class="messageText"><%= messages[i].message %></div>
                 </div>
 				<% } %>
+                <% } else{ %>  
+                    <h1>No Results Found!</h1>
+                <% } %>
             </div>
         </div>
         </div>

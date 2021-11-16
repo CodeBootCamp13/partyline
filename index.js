@@ -80,7 +80,7 @@ app.get('/search', (req, res) => {
 	searchQuery = '%' + searchQuery + '%';
 
 	// TODO: search for parties as well... 
-	let templateObj = { messages: [], parties: [] };
+	let templateObj = { messages: [searchQuery], parties: [searchQuery] };
 	connection.query(
 		'SELECT id,party_id,user_id,message,sent_on FROM messages WHERE message LIKE ?',
 		[ searchQuery ],
