@@ -1,111 +1,158 @@
-const express = require('express');
-const mysql   = require('mysql2');
+const express = require("express");
+const mysql = require("mysql2");
 
 const app = new express();
 
 const connection = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
-	database: 'partyline',
-	waitForConnections: true,
-	connectionLimit: 10,
-	queueLimit: 0
+  host: "localhost",
+  user: "root",
+  database: "partyline",
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
 // serve public files - static
-app.use( express.static('public') );
-app.use( express.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
+app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
 
 //displays main screen
-app.get('/', (req, res) => {
-	res.render('index');
+app.get("/", (req, res) => {
+  res.render("index");
 });
 
 // create a party page
-app.get('/party', (req, res) => {
-	res.render('createParty');
+app.get("/party", (req, res) => {
+  res.render("createParty");
 });
-app.post('/party', (req, res) => {
-	// todo (this will be where we handle this)
-	var user_id = 1;
-	connection.query('INSERT INTO parties (user_id, name, description) VALUES (?,?,?)', [user_id, req.body.name, req.body.description], (err, results) =>{
-		console.log(results.insertId);
-		res.redirect('/party/'+ results.insertId);
-	});
+app.post("/party", (req, res) => {
+  // todo (this will be where we handle this)
+  var user_id = 1;
+  connection.query(
+    "INSERT INTO parties (user_id, name, description) VALUES (?,?,?)",
+    [user_id, req.body.name, req.body.description],
+    (err, results) => {
+      console.log(results.insertId);
+      res.redirect("/party/" + results.insertId);
+    }
+  );
 });
 
 // route to load/display a chat room party
-app.get('/party/:party_id', (req, res) => {
-	console.log(req.params);
-	// query the database to fetch the name/description of the party
-	// requested in the URL
-	connection.query(
-		'SELECT name,description FROM parties WHERE id = ?', 
-		[ req.params.party_id ], 
-		(err, results) => {
-		console.log(results[0]);
+app.get("/party/:party_id", (req, res) => {
+  console.log(req.params);
+  // query the database to fetch the name/description of the party
+  // requested in the URL
+  connection.query(
+    "SELECT name,description FROM parties WHERE id = ?",
+    [req.params.party_id],
+    (err, results) => {
+      console.log(results[0]);
 
-		let templateArgs = { 
-			partyId: req.params.party_id,
-			partyName: results[0].name, 
-			partyDescription: results[0].description,
-			messages: []
-		};
+      let templateArgs = {
+        partyId: req.params.party_id,
+        partyName: results[0].name,
+        partyDescription: results[0].description,
+        messages: [],
+      };
 
-		connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
-			templateArgs.messages = results;
-			res.render('party', templateArgs);
-		});
-		
-	});
+      connection.query(
+        "SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?",
+        [req.params.party_id],
+        (err, results) => {
+          templateArgs.messages = results;
+          res.render("party", templateArgs);
+        }
+      );
+    }
+  );
 });
 
-app.post('/party/:party_id', (req, res) => {
-	// write the code to store a new message to the messages table.
-	let user_id = 1; // TODO(erh): fix this when we implement user accounts.
-    connection.query('INSERT INTO messages (party_id, user_id, message) VALUES (?,?,?)', [req.params.party_id, user_id, req.body.newMessage], (err, results) => {
-		res.redirect('/party/' + req.params.party_id);
-    });
+app.post("/party/:party_id", (req, res) => {
+  // write the code to store a new message to the messages table.
+  let user_id = 1; // TODO(erh): fix this when we implement user accounts.
+  connection.query(
+    "INSERT INTO messages (party_id, user_id, message) VALUES (?,?,?)",
+    [req.params.party_id, user_id, req.body.newMessage],
+    (err, results) => {
+      res.redirect("/party/" + req.params.party_id);
+    }
+  );
 });
 
-app.get('/search', (req, res) => {
+app.get("/search", (req, res) => {
+  // TODO: need a search.ejs template to display our search results
+  // TODO: to actually process the query in our database and render those results on our template.
+  // connection.query
+  // var id = req.param('search');
+  let searchQuery = "%" + req.query.query + "%";
 
-	// TODO: need a search.ejs template to display our search results
-	// TODO: to actually process the query in our database and render those results on our template.
-	// connection.query 
-	// var id = req.param('search');
-	let searchQuery = '%' + req.query.query + '%';
+  // TODO: search for parties as well...
+  let templateObj = { messages: [], parties: [] };
 
-	// TODO: search for parties as well... 
-	let templateObj = { messages: [], parties: [] };
+  connection.query(
+    "SELECT id,name FROM parties WHERE name LIKE ? OR description LIKE ?",
+    [searchQuery, searchQuery],
+    (err, results) => {
+      templateObj.parties = results;
 
-	connection.query(
-		'SELECT id,name FROM parties WHERE name LIKE ? OR description LIKE ?',
-		[ searchQuery, searchQuery ],
-		(err, results) => {
+      connection.query(
+        "SELECT id,party_id,user_id,message,sent_on FROM messages WHERE message LIKE ?",
+        [searchQuery],
+        (err, results) => {
+          templateObj.messages = results;
+          res.render("search", templateObj);
+        }
+      );
+    }
+  );
 
-			templateObj.parties = results; 
-
-			connection.query(
-				'SELECT id,party_id,user_id,message,sent_on FROM messages WHERE message LIKE ?',
-				[ searchQuery ],
-				(err, results) => {
-					templateObj.messages = results;
-					res.render('search', templateObj);
-				} 
-			);
-
-		}	
-	);
-	
-
-	// connection.query(
-	// 	'SELECT id,party_id,user_id,message, sent_on FROM partyline.messages WHERE id = ?', 
-	// 	[ req.params.search ], 
-	// 	(err, results) => {
-	// // SELECT id,party_id,user_id,message,sent_on FROM partyline.messages WHERE message LIKE '%test%';
-	
+  // connection.query(
+  // 	'SELECT id,party_id,user_id,message, sent_on FROM partyline.messages WHERE id = ?',
+  // 	[ req.params.search ],
+  // 	(err, results) => {
+  // // SELECT id,party_id,user_id,message,sent_on FROM partyline.messages WHERE message LIKE '%test%';
 });
 
-app.listen(3000, () => console.log('Server is up on port 3000'))
+app.get("/subscribe", (req, res) => {
+  let searchQuery = "%" + req.query.query + "%";
+  let userID = 1; //"%" + req.query.userID + "%";
+  let templateObj = { parties: [], joinedParties: [] };
+
+  connection.query(
+    "SELECT id,name FROM parties WHERE name LIKE ?",
+    [searchQuery, searchQuery],
+    (err, results) => {
+      templateObj.parties = results;
+
+      connection.query(
+        "SELECT id, name FROM user_parties WHERE user_id = ? ",
+        [userID],
+        (err, results) => {
+          console.log(results);
+          templateObj.joinedParties = results;
+          res.render("subscribe", templateObj);
+        }
+      );
+    }
+  );
+});
+
+app.post("/subscribe/:subscribe", (req, res) => {
+  let info = req.body.info.split(",");
+  connection.query(
+    "INSERT INTO user_parties (party_id, name, user_id) VALUES (?,?,?)",
+    info,
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(results);
+      }
+    }
+  );
+  res.redirect("/subscribe/");
+});
+
+app.listen(3000, () => console.log("Server is up on port 3000"));

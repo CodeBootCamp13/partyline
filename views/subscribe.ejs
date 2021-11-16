@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/partyline.css">
+    </head>
+    <body>
+        <div class="sidebar">
+            <div class="logo">
+                <img src="/images/partyline_logo_horizontal-03.png">
+            </div>
+            <table id="joinedParties" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                    <th><span>My Parties</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                    if ( joinedParties ) {  
+                        for ( let i = 0; i < joinedParties.length; i++ ) { 
+                    %>
+                    <tr>
+                    <td><a href="/party/<%= joinedParties[i].id %>"><%= joinedParties[i].name %></a></td>
+                    <td>6,000</td>
+                    </tr>
+                    <%
+                        } // end of for loop
+                    } else {
+                    %>
+                    <tr>
+                        <td><em>No parties joined yet.</em></td>
+                    </tr>
+                    <%	
+                    }	 
+                    %>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div id="searchpartyTitle">
+                <h1>Party Results</h1>
+                    <table id="searchParty" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <tr>
+                            <th><span>Party</span></th>
+                            <th><span>Members</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+							<%
+							if ( parties.length ) {  
+								for ( let i = 0; i < parties.length; i++ ) { 
+							%>
+                            <tr>
+                            <td><a href="/party/<%= parties[i].id %>"><%= parties[i].name %></a></td>
+                            <td>6,000</td>
+                            <form action="/subscribe/:subscribe" method="post">
+                            <td><input type="submit" value="Join Party"></td>
+                            <input type="hidden" id="info" name="info" value="<%= parties[i].id %>,<%= parties[i].name %>,<%= 1 %>">
+                            </form>
+                            </tr>
+							<%
+								} // end of for loop
+							} else {
+							%>
+							<tr>
+								<td><em>No parties matching that query.</em></td>
+                            </tr>
+							<%	
+							}	 
+							%>
+                        </tbody>
+                    </table>
+                </div>
+        <form action="/subscribe">
+        <label for="Search">Search For Public Parties:</label><br>
+        <input type="text" id="query" name="query" value=""><br>
+        <input type="submit" value="Search">
+        </form>
+    </body>
+</html>
