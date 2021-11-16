@@ -29,6 +29,14 @@ CREATE TABLE `messages` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `user_parties` (
+	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`party_id` int(11) NOT NULL,
+	`user_id` int(11) NOT NULL,
+	PRIMARY KEY(`id`),
+	INDEX `user_idx` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 

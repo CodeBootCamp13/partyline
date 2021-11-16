@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const mysql   = require('mysql2');
 
@@ -18,20 +19,38 @@ app.use( express.static('public') );
 app.use( express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
+let myUserId = 1; // TODO: temporary user id until we get accounts configured
+
 // middleware to set up our menus
 app.use(function(req, res, next) {
 	console.log('app.use is called');
 
-	// grab a list of all our parties
-	connection.query('SELECT id,name FROM parties ORDER BY name LIMIT 10', (err, results) => {
-
-		console.log(results);
-
-		res.locals.partyMenu = results;
-
-		next();
-
-	});
+	// TODO( actually check to see if we are logged in)
+	if ( myUserId ) {
+		// FOR LOGGED IN USERS
+		connection.query(
+			'SELECT p.id,p.name FROM parties AS p LEFT JOIN user_parties AS up ON p.id = up.party_id WHERE up.user_id = ?',
+			[ myUserId ],
+			(err, results) => {
+				console.log(results);
+				res.locals.partyMenu = results;
+				res.locals.myParties = {};
+				for ( let i = 0; i < results.length; i++ ) {
+					res.locals.myParties[ results[i].id ] = results[i].name;
+				}
+				console.log(res.locals.myParties);
+				next();
+			}
+		);
+	} else { 
+		// FOR GUESTS
+		// grab a list of all our parties
+		connection.query('SELECT id,name FROM parties ORDER BY name LIMIT 10', (err, results) => {
+			console.log(results);
+			res.locals.partyMenu = results;
+			next();
+		});
+	}
 
 	// if we are logged in, grab a list of the parties we are subscribed to
 });
@@ -126,15 +145,21 @@ app.get('/search', (req, res) => {
 		}	
 	);
 	
-
-	// connection.query(
-	// 	'SELECT id,party_id,user_id,message, sent_on FROM partyline.messages WHERE id = ?', 
-	// 	[ req.params.search ], 
-	// 	(err, results) => {
-	// // SELECT id,party_id,user_id,message,sent_on FROM partyline.messages WHERE message LIKE '%test%';
-	
 });
 
+
+// subscription to parties routes
+app.post('/subscribe/:party_id', (req, res) => {
+	// insert a record into the database for the party we are subscribing to
+	let user_id = 1; // TODO: replace this when we get user accounts set up
+	connection.query(
+		'INSERT INTO user_parties (user_id, party_id) VALUES (?, ?)',
+		[ user_id, req.params.party_id ],
+		(err, results) => {
+			res.redirect('back');
+		}
+	)
+});
 
 app.get('/account', (req, res) =>{
 	res.render('account');
