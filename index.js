@@ -18,6 +18,26 @@ app.use( express.static('public') );
 app.use( express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
+// middleware to set up our menus
+app.use(function(req, res, next) {
+	console.log('app.use is called');
+
+	// grab a list of all our parties
+	connection.query('SELECT id,name FROM parties ORDER BY name LIMIT 10', (err, results) => {
+
+		console.log(results);
+
+		res.locals.parties = results;
+
+		next();
+
+	});
+
+	// if we are logged in, grab a list of the parties we are subscribed to
+
+	
+});
+
 //displays main screen
 app.get('/', (req, res) => {
 	res.render('index');
