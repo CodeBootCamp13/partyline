@@ -52,48 +52,48 @@
                             </tr>
                         </thead>
                         <tbody>
+							<%
+							if ( parties.length ) {  
+								for ( let i = 0; i < parties.length; i++ ) { 
+							%>
                             <tr>
-                            <td><a href="/party/1">Food</a></td>
+                            <td><a href="/party/<%= parties[i].id %>"><%= parties[i].name %></a></td>
                             <td>6,000</td>
                             <td><button>Join Party</button></td>
                             </tr>
-                            <tr>
-                            <td><a href="/party/2">Smoking Meats</a></td>
-                            <td>2,200</td>
-                            <td><button>Join Party</button></td>
-                            </tr>   
-                            <tr>
-                            <td><a href="/party/4">Apples</a></td>
-                            <td>85,500</td>
-                            <td>You're Already Partying</td>
+							<%
+								} // end of for loop
+							} else {
+							%>
+							<tr>
+								<td><em>No parties matching that query.</em></td>
                             </tr>
-                            <tr>
-                            <td><a href="/party/7">Food</a></td>
-                            <td>6,000</td>
-                            <td><button>Join Party</button></td>
-                            </tr>
-                            <tr>
-                            <td><a href="/party/1">Food</a></td>
-                            <td>9,900</td>
-                            <td><button>Join Party</button></td>
-                            </tr>
-                            <tr>
-                            <td><a href="/party/1">Food</a></td>
-                            <td>10,500</td>
-                            <td><button>Join Party</button></td>
-                            </tr>
+							<%	
+							}	 
+							%>
                         </tbody>
                     </table>
                 </div> 
             <div class="messageResults">
                 <h1> Message Results</h1>
-                <% for ( let i = 0; i < messages.length; i++ ) { %>
+                <%
+				if ( messages.length ) {  
+					for ( let i = 0; i < messages.length; i++ ) { %>
                 <div class="searchMessage"> 
                     <div class="username"><%= messages[i].user_id %></div>
                     <div class="timestamp"><%= messages[i].sent_on %></div>
                     <div class="messageText"><%= messages[i].message %></div>
                 </div>
-				<% } %>
+				<% 
+					} 
+				} else {
+				%>
+				<div class="searchMessage">
+					<p>No results found</p>
+				</div>
+				<%
+				}
+				%>
             </div>
         </div>
         </div>
