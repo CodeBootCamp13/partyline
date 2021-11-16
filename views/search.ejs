@@ -37,7 +37,7 @@
                 <a href="#">Help</a>
             </div>
             <div class="search">
-                <input type="search" id="search" name="search" placeholder="Search for Groups...">
+				<%- include('searchBar') %>
             </div>
         </div>
         <div class="results">
@@ -87,26 +87,13 @@
                 </div> 
             <div class="messageResults">
                 <h1> Message Results</h1>
-                <div class="searchMessage">
-                    <div class="username">User 752</div>
-                    <div class="timestamp">11/04/21 10:12am</div>
-                    <div class="messageText">Footbal...</div>
-                </div>
+                <% for ( let i = 0; i < messages.length; i++ ) { %>
                 <div class="searchMessage"> 
-                    <div class="username">User 752</div>
-                    <div class="timestamp">11/04/21 10:12am</div>
-                    <div class="messageText">...Football...</div>
+                    <div class="username"><%= messages[i].user_id %></div>
+                    <div class="timestamp"><%= messages[i].sent_on %></div>
+                    <div class="messageText"><%= messages[i].message %></div>
                 </div>
-                <div class="searchMessage">
-                    <div class="username">User 752</div>
-                    <div class="timestamp">11/04/21 10:12am</div>
-                    <div class="messageText">Football...</div>
-                </div>
-                <div class="searchMessage"> 
-                    <div class="username">User 752</div>
-                    <div class="timestamp">11/04/21 10:12am</div>
-                    <div class="messageText">...Football...</div>
-                </div>
+				<% } %>
             </div>
         </div>
         </div>

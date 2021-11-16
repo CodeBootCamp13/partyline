@@ -74,13 +74,25 @@ app.get('/search', (req, res) => {
 	// TODO: need a search.ejs template to display our search results
 	// TODO: to actually process the query in our database and render those results on our template.
 	// connection.query 
-	var id = req.param('search');
+	// var id = req.param('search');
+	let searchQuery = req.query.query;
+	console.log(searchQuery);
+	searchQuery = '%' + searchQuery + '%';
+
 	connection.query(
-		'SELECT id,party_id,user_id,message, sent_on FROM partyline.messages WHERE id = ?', 
-		[ req.params.search ], 
+		'SELECT id,party_id,user_id,message,sent_on FROM messages WHERE message LIKE ?',
+		[ searchQuery ],
 		(err, results) => {
-	// SELECT id,party_id,user_id,message,sent_on FROM partyline.messages WHERE message LIKE '%test%';
-	res.render('search');
+			res.render('search', { messages: results });
+		} 
+	);
+
+	// connection.query(
+	// 	'SELECT id,party_id,user_id,message, sent_on FROM partyline.messages WHERE id = ?', 
+	// 	[ req.params.search ], 
+	// 	(err, results) => {
+	// // SELECT id,party_id,user_id,message,sent_on FROM partyline.messages WHERE message LIKE '%test%';
+	
 });
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
