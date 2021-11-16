@@ -75,9 +75,7 @@ app.get('/search', (req, res) => {
 	// TODO: to actually process the query in our database and render those results on our template.
 	// connection.query 
 	// var id = req.param('search');
-	let searchQuery = req.query.query;
-	console.log(searchQuery);
-	searchQuery = '%' + searchQuery + '%';
+	let searchQuery = '%' + req.query.query + '%';
 
 	// TODO: search for parties as well... 
 	let templateObj = { messages: [], parties: [] };
@@ -86,7 +84,7 @@ app.get('/search', (req, res) => {
 		'SELECT id,name FROM parties WHERE name LIKE ? OR description LIKE ?',
 		[ searchQuery, searchQuery ],
 		(err, results) => {
-			
+
 			templateObj.parties = results; 
 
 			connection.query(
