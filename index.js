@@ -7,7 +7,7 @@ const app = new express();
 const connection = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
-	password: '',
+	password: 'root',
 	database: 'partyline',
 	waitForConnections: true,
 	connectionLimit: 10,
@@ -171,6 +171,13 @@ app.post('/account', (req, res) => {
 		res.redirect('/search');
 	});
 })
+
+//create new party topic
+// create a party page
+app.get('/topic', (req, res) => {
+	res.render('createTopic');
+});
+
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
 
