@@ -82,7 +82,7 @@ app.post('/party/:party_id/new', (req, res) => {
 	var user_id = 1;
 	connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [req.params.party_id, user_id, req.body.name, req.body.description], (err, results) =>{
 		console.log(results.insertId);
-		res.redirect('/party/'+ results.insertId);
+		res.redirect('/party/'+ req.params.party_id);
 	});
 });
 
