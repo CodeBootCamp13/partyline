@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
 
 // create a party page
 app.get('/party', (req, res) => {
-	res.render('createParty');
+	res.render('createParty', { parent_id: null });
 });
 app.post('/party', (req, res) => {
 	// todo (this will be where we handle this)
@@ -72,6 +72,21 @@ app.post('/party', (req, res) => {
 		res.redirect('/party/'+ results.insertId);
 	});
 });
+
+// create a sub party
+app.get('/party/:party_id/new', (req, res) => {
+	res.render('createParty', { parent_id: req.params.party_id });
+});
+app.post('/party/:party_id/new', (req, res) => {
+	// todo (this will be where we handle this)
+	var user_id = 1;
+	connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [req.params.party_id, user_id, req.body.name, req.body.description], (err, results) =>{
+		console.log(results.insertId);
+		res.redirect('/party/'+ req.params.party_id);
+	});
+});
+
+
 
 app.get('/login', (req, res) => {
 	res.render('login');
@@ -96,12 +111,27 @@ app.get('/party/:party_id', (req, res) => {
 			partyId: req.params.party_id,
 			partyName: results[0].name, 
 			partyDescription: results[0].description,
-			messages: []
+			messages: [],
+			subParties: []
 		};
 
 		connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
 			templateArgs.messages = results;
-			res.render('party', templateArgs);
+
+
+			connection.query(
+				'SELECT id,name FROM parties WHERE parent_id = ?', 
+				[req.params.party_id],
+				(err, results) => {
+					if ( results.length ) {
+						templateArgs.subParties = results;
+					}
+					res.render('party', templateArgs);
+				}
+			
+			);
+
+			
 		});
 		
 	});
