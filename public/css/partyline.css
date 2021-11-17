@@ -188,14 +188,25 @@ span.psw {
 	color:white;
 	}
 
-@media screen and (max-width: 300px) {
-span.psw {
-    display: block;
-    float: none;
+.accountpage {
+	margin: 0 auto;
 }
 
-.cancelbtn {
-    width: 100%;
+.accountpage label {
+	display: inline-block;
+	width: 150px;
 }
+
+@media screen and (max-width: 300px) {
+	span.psw {
+		display: block;
+		float: none;
+	}
+
+	.cancelbtn {
+		width: 100%;
+	}
 }
+
+
 
