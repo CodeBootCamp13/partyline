@@ -60,6 +60,20 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
+//displays user6 profile
+app.get('/user5', (req, res) => {
+	res.render('user5');
+});
+
+app.post('/user5', (req, res) => {
+	// todo (this will be where we handle this)
+	var user_id = 1;
+	connection.query('INSERT INTO parties (user_id, name, description) VALUES (?,?,?)', [user_id, req.body.name, req.body.description], (err, results) =>{
+		console.log(results.insertId);
+		res.redirect('/user5/'+ results.insertId);
+	});
+});
+
 // create a party page
 app.get('/party', (req, res) => {
 	res.render('createParty', { parent_id: null });

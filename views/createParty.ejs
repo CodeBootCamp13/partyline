@@ -32,12 +32,8 @@
             </div>
         </div>
         <div class="createParty">  
-            <form id="partyCreation" action="/party<%= parent_id ? '/' + parent_id + '/new' : '' %>" method="post">
-                <% if ( parent_id ) { %>
-				<h3>Create a new Sub Party</h3>
-				<% } else { %>
-				<h3>Create New Party</h3>
-				<% } %>
+            <form id="partyCreation" action="/party" method="post">
+                <h3>Create New Party</h3>
                 <fieldset>
                     <input placeholder="Party Title" name="name" type="text" tabindex="2" required>
                     <textarea placeholder="Party description goes here..." name="description" tabindex="5" required></textarea>
