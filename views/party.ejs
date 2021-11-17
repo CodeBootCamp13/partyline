@@ -48,9 +48,19 @@
 				<form method="post" action="/subscribe/<%= partyId %>"><input type="submit" value="Join Party"></form>
 				<% } %>
                 <ul>
-                    <li>#Braves</li>
-                    <li>#World Series</li>
+					<li><a href="/party/<%= partyId %>/new">Create Sub-Party</a></li>
+					<%
+						if ( subParties.length ) {
+							for ( let i = 0; i < subParties.length; i++ ) {
+					%>
+					<li><a href="/party/<%= subParties[i].id %>"><%= subParties[i].name %></a></li>
+					<%			
+							}
+						}
+					%>
                 </ul>
+
+				
             </div>
             <div class="chat">
                 <div class="messages">
