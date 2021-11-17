@@ -1,3 +1,11 @@
+:root { 
+	--main: #282F39;
+	--sub: #3B4555;
+	--sub2: #4E5869;
+	--sub3: #333B48;
+	--color: #D69549;
+}
+
 body {
 	font-family: sans-serif;
 	color:#DBDBDB;
