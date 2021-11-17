@@ -51,6 +51,13 @@
                     <li>#Braves</li>
                     <li>#World Series</li>
                 </ul>
+                <form action="/party/:party_id" method="post" class="subParty">
+					<label for="subParty"><b>Create New Sub Party</b></label>
+					<input type="text" placeholder="Enter Party Name" name="subParty" required>
+                    <label for="subParty">Description</label>
+                    <input type="text" placeholder="Describe Party" name="description">
+                    <input type="submit" value="Submit">
+                </form>
             </div>
             <div class="chat">
                 <div class="messages">

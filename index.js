@@ -7,7 +7,7 @@ const app = new express();
 const connection = mysql.createPool({
 	host: 'localhost',
 	user: 'root',
-	password: '',
+	password: 'root',
 	database: 'partyline',
 	waitForConnections: true,
 	connectionLimit: 10,
@@ -171,6 +171,16 @@ app.post('/account', (req, res) => {
 		res.redirect('/search');
 	});
 })
+
+app.post('/party/:party_id', (req, res) => {
+	let user_id = 1
+
+    connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [req.params.party_id, user_id, req.body.subParty, req.body.description], (err, results) => {
+		console.log(req.body)
+		res.redirect('/party/:' + req.body.subParty);
+		
+    });
+});
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
 
