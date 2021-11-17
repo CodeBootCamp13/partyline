@@ -15,7 +15,7 @@ body {
 }
 
 h2 {
-	padding: 40px;
+	padding: 20px;
 }
 
 a {
@@ -26,9 +26,10 @@ a {
 	margin: 0px;
 	padding: 0px;
 	background-color: #282F39;
-	width: 10vw;
+	width: 20vw;
 	height: 100vh;
 }
+
 
 .content {
 	width: 100vw;
@@ -40,15 +41,23 @@ a {
 
 .topbar {
 	background-color: #333B48;
+    padding-top: 18px;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .logo img { 
 	height: 100px;
+	height: 200px;
+    padding-left: 15px;
 }
 
 .search {
 	display: flex;
 	justify-content: flex-end;
+	padding-right:37px;
 }
 
 .sidemenu {
@@ -61,7 +70,7 @@ a {
 .chat {
 	background-color: #4E5869;
 	height: 100vh;
-	width: 80vw;
+	width: 75vw;
 }
 
 .message {
@@ -69,6 +78,8 @@ a {
 	padding: 0px;
 	border: 1px solid;
 }
+
+
 
 .join {
 	margin: 0px;
@@ -83,6 +94,7 @@ a {
 th{
 	padding-right: 5rem;
 	align-items: center;
+	border-bottom: 2px solid black;
 }
 
 td{
@@ -91,17 +103,22 @@ td{
 
 .results {
 	display: flex;
+	background-color: var(--sub2);
+}
+#searchpartyTitle{
+	color:white;
 }
 
 .messageResults {
-	color:#282F39;
+	color:white;
 	padding: 2rem;
 	width: 40vw;
+
 }
 
 .searchMessage {
-	background-color: #eee;
-	border-bottom: 1px solid black;
+	background-color:var(--sub2);
+	border-bottom: 1px solid var(--main);
 	margin: 10px 0;
 }
 
@@ -154,6 +171,11 @@ span.psw {
     padding-top: 16px;
   }
 
+#searchParty tr:nth-child(even){
+	background: var(--sub2);
+	color:white;
+	}
+
 @media screen and (max-width: 300px) {
 span.psw {
     display: block;
@@ -164,3 +186,4 @@ span.psw {
     width: 100%;
 }
 }
+
