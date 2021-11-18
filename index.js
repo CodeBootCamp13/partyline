@@ -1,5 +1,5 @@
-const e = require('express');
 const express = require('express');
+const session = require('express-session');
 const mysql   = require('mysql2');
 require('dotenv').config();
 
@@ -15,23 +15,36 @@ const connection = mysql.createPool({
 	queueLimit: 0
 });
 
+
+
 // serve public files - static
 app.use( express.static('public') );
 app.use( express.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
-let myUserId = 1; // TODO: temporary user id until we get accounts configured
+// session setup stuff for express session
+app.use(session({ 
+	secret: 'partyline_session',
+	resave: true,
+	saveUninitialized: true
+}));
+
+app.use((req, res, next) => {
+	res.locals.user_id = req.session.user_id;
+	res.locals.username = req.session.username;
+	next();
+});
 
 // middleware to set up our menus
 app.use(function(req, res, next) {
 	console.log('app.use is called');
 
 	// TODO( actually check to see if we are logged in)
-	if ( myUserId ) {
+	if ( res.locals.user_id ) {
 		// FOR LOGGED IN USERS
 		connection.query(
 			'SELECT p.id,p.name FROM parties AS p LEFT JOIN user_parties AS up ON p.id = up.party_id WHERE up.user_id = ?',
-			[ myUserId ],
+			[ res.locals.user_id ],
 			(err, results) => {
 				console.log(results);
 				res.locals.partyMenu = results;
@@ -67,7 +80,7 @@ app.get('/party', (req, res) => {
 });
 app.post('/party', (req, res) => {
 	// todo (this will be where we handle this)
-	var user_id = 1;
+	var user_id = res.locals.user_id;
 	connection.query('INSERT INTO parties (user_id, name, description) VALUES (?,?,?)', [user_id, req.body.name, req.body.description], (err, results) =>{
 		console.log(results.insertId);
 		res.redirect('/party/'+ results.insertId);
@@ -80,7 +93,7 @@ app.get('/party/:party_id/new', (req, res) => {
 });
 app.post('/party/:party_id/new', (req, res) => {
 	// todo (this will be where we handle this)
-	var user_id = 1;
+	var user_id = res.locals.user_id;
 	connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [req.params.party_id, user_id, req.body.name, req.body.description], (err, results) =>{
 		console.log(results.insertId);
 		res.redirect('/party/'+ req.params.party_id);
@@ -94,7 +107,52 @@ app.get('/login', (req, res) => {
 });
 app.post('/login', (req, res) => {
 	// TODO(actually let us log in)
-	res.render('login');
+	
+	// the user has posted `username` and `password`
+	let username = req.body.username;
+	let password = req.body.password;
+
+	// we want to look up the user from the database, and check to see if their password matches
+	let query = `
+		SELECT id,first_name,last_name,username,password FROM users WHERE username = ?
+	`;
+	connection.query(query, [ username ], (err,results) => {
+
+		
+		if ( results.length ) {
+			let dbpass = results[0].password;
+			// if the password matches, log them in
+			console.log(dbpass + ' - ' + password);
+			if ( dbpass == password ) {
+				// we are logged in correctly
+
+				req.session.user_id = results[0].id;
+				req.session.username = results[0].username;
+
+				return res.redirect('/user/' + results[0].id);
+			} 
+		} 
+	
+		return res.redirect('/login?invalid');
+	
+		// otherwise, return them to the login page 
+		// todo(think about an error message)
+
+	});
+
+});
+app.get('/logout', (req, res) => {
+	if ( req.session ) {
+		req.session.destroy(err => {
+			if ( err ) {
+				res.status(400).send('Unable to logout');
+			} else {
+				res.redirect('/');
+			}
+		});
+	} else {
+		res.redirect('/');
+	}
 });
 
 // route to load/display a chat room party
@@ -145,7 +203,7 @@ app.get('/party/:party_id', (req, res) => {
 
 app.post('/party/:party_id', (req, res) => {
 	// write the code to store a new message to the messages table.
-	let user_id = 1; // TODO(erh): fix this when we implement user accounts.
+	let user_id = res.locals.user_id; 
     connection.query('INSERT INTO messages (party_id, user_id, message) VALUES (?,?,?)', [req.params.party_id, user_id, req.body.newMessage], (err, results) => {
 		res.redirect('/party/' + req.params.party_id);
     });
@@ -187,7 +245,7 @@ app.get('/search', (req, res) => {
 // subscription to parties routes
 app.post('/subscribe/:party_id', (req, res) => {
 	// insert a record into the database for the party we are subscribing to
-	let user_id = 1; // TODO: replace this when we get user accounts set up
+	let user_id = res.locals.user_id; 
 	connection.query(
 		'INSERT INTO user_parties (user_id, party_id) VALUES (?, ?)',
 		[ user_id, req.params.party_id ],
@@ -221,8 +279,7 @@ app.get('/user/:user_id', (req, res) => {
 				Subs: []
 				
 			};
-			
-			
+
 			connection.query('SELECT up.id, up.party_id, up.user_id, parties.name FROM partyline.user_parties AS up LEFT JOIN parties ON up.party_id = parties.id WHERE up.user_id = ?', [req.params.user_id],(err, results) => {
 				userProfile.Subs = results;
 
@@ -236,7 +293,4 @@ app.get('/user/:user_id', (req, res) => {
 	});
 });
 
-
-
 app.listen(3000, () => console.log('Server is up on port 3000'))
-
