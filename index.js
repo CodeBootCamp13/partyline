@@ -217,11 +217,18 @@ app.get('/user/:user_id', (req, res) => {
 				lastName: results[0].last_name,
 				email: results[0].email,
 				username: results[0].username,
-				password: results[0].password
+				password: results[0].password,
+				Subs: []
+				
 			};
-			console.log(userProfile);
-	
-			res.render('user', userProfile);
+			
+			
+			connection.query('SELECT up.id, up.party_id, up.user_id, parties.name FROM partyline.user_parties AS up LEFT JOIN parties ON up.party_id = parties.id WHERE up.user_id = ?', [req.params.user_id],(err, results) => {
+				userProfile.Subs = results;
+
+				res.render('user', userProfile);
+			})
+		
 		} else {
 			res.render('404');
 		}

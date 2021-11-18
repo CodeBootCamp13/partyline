@@ -35,5 +35,14 @@
         <div> <%=username%></div>
         <div> <%=password%></div>
 
+        <div class="subs">
+            <% for ( let i = 0; i < Subs.length; i++ ) { %>
+            <div class="subscriptionlist"> 
+                <div class="partySubs"> <a href="/party/<%=Subs[i].party_id %>"><%= Subs[i].name %></a></div> 
+            </div>
+            <% } %>
+        </div>
+
+
 </body>
 </html>
