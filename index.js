@@ -293,12 +293,10 @@ app.get('/user/:user_id', (req, res) => {
 	});
 });
 
-app.get('/api/party/:party_id/:message_id'),(req,res) => {
-	connection.query('SELECT id, party_id, message FROM messages WHERE party_id = ?'), [ req.params.party_id ], (err, results) => {
-		let currentMessages = results.message_id
-
-		if(req.params.message_id < currentMessage)
-	}
-};
+app.get('/api/party/:party_id/:message_id' ,(req,res) => {
+	connection.query('SELECT id, party_id, message FROM messages WHERE party_id = ? AND id > ?', [ req.params.party_id, req.params.message_id ], (err, results) => {
+		res.json(results);
+	});
+});
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
