@@ -202,14 +202,24 @@ app.post('/account', (req, res) => {
 	});
 })
 
-app.get('/profile', (req, res) => {
+app.get('/profile/:user_id', (req, res) => {
 	
 	connection.query('SELECT * FROM `users` WHERE `id` = 1', (err, results) => {
-		console.log(results)
-		res.render('profile')
+		
+		let userProfile = {
+			firstName: results[0].first_name,
+			lastName: results[0].last_name,
+			email: results[0].email,
+			username: results[0].username,
+			password: results[0].password
+	}
+		console.log(userProfile)
+
+		res.render('profile', userProfile)
 	});
 });
 
 
 
 app.listen(3000, () => console.log('Server is up on port 3000'))
+
