@@ -60,7 +60,9 @@
             </div>
             <div class="chat">
                 <div class="messages">
-                    <% for ( let i = 0; i < messages.length; i++ ) { %>
+                    <% 
+					for ( let i = 0; i < messages.length; i++ ) {
+					%>
                     <div class="message"> 
                         <div class="username">User <%= messages[i].user_id %></div>
                         <div class="timestamp"><%= messages[i].sent_on %></div>
