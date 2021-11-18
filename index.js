@@ -60,19 +60,20 @@ app.get('/', (req, res) => {
 	res.render('index');
 });
 
-//displays user6 profile
-app.get('/user5', (req, res) => {
-	res.render('user5');
+//displays user profile
+app.get('/user', (req, res) => {
+	res.render('user');
 });
 
-app.post('/user5', (req, res) => {
-	// todo (this will be where we handle this)
-	var user_id = 1;
-	connection.query('INSERT INTO parties (user_id, name, description) VALUES (?,?,?)', [user_id, req.body.name, req.body.description], (err, results) =>{
-		console.log(results.insertId);
-		res.redirect('/user5/'+ results.insertId);
-	});
+app.post('/user/:user_id', (req, res) => {
+	// write the code to store a new message to the messages table.
+	let user_id = 1; // TODO(erh): fix this when we implement user accounts.
+    connection.query('INSERT INTO messages (user_id, username, first_name) VALUES (?,?,?)', [req.params.user_id, username, req.body.firstName], (err, results) => {
+		res.redirect('/user/' + req.params.user_id);
+    });
 });
+
+
 
 // create a party page
 app.get('/party', (req, res) => {
