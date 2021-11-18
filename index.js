@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const mysql   = require('mysql2');
 require('dotenv').config();
@@ -105,35 +106,40 @@ app.get('/party/:party_id', (req, res) => {
 		'SELECT name,description FROM parties WHERE id = ?', 
 		[ req.params.party_id ], 
 		(err, results) => {
-		console.log(results[0]);
 
-		let templateArgs = { 
-			partyId: req.params.party_id,
-			partyName: results[0].name, 
-			partyDescription: results[0].description,
-			messages: [],
-			subParties: []
-		};
+		if ( results.length ) { 
 
-		connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
-			templateArgs.messages = results;
+			console.log(results[0]);
+
+			let templateArgs = { 
+				partyId: req.params.party_id,
+				partyName: results[0].name, 
+				partyDescription: results[0].description,
+				messages: [],
+				subParties: []
+			};
+
+			connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
+				templateArgs.messages = results;
 
 
-			connection.query(
-				'SELECT id,name FROM parties WHERE parent_id = ?', 
-				[req.params.party_id],
-				(err, results) => {
-					if ( results.length ) {
-						templateArgs.subParties = results;
+				connection.query(
+					'SELECT id,name FROM parties WHERE parent_id = ?', 
+					[req.params.party_id],
+					(err, results) => {
+						if ( results.length ) {
+							templateArgs.subParties = results;
+						}
+						res.render('party', templateArgs);
 					}
-					res.render('party', templateArgs);
-				}
-			
-			);
+				
+				);
 
-			
-		});
-		
+				
+			});
+		} else {
+			res.render('404');
+		}
 	});
 });
 
@@ -202,20 +208,24 @@ app.post('/account', (req, res) => {
 	});
 })
 
-app.get('/profile/:user_id', (req, res) => {
+app.get('/user/:user_id', (req, res) => {
 	
-	connection.query('SELECT * FROM `users` WHERE `id` = 1', (err, results) => {
+	connection.query('SELECT * FROM `users` WHERE `id` = ?', [ req.params.user_id ], (err, results) => {
+		if ( results.length ) {
+			let userProfile = {
+				firstName: results[0].first_name,
+				lastName: results[0].last_name,
+				email: results[0].email,
+				username: results[0].username,
+				password: results[0].password
+			};
+			console.log(userProfile);
+	
+			res.render('user', userProfile);
+		} else {
+			res.render('404');
+		}
 		
-		let userProfile = {
-			firstName: results[0].first_name,
-			lastName: results[0].last_name,
-			email: results[0].email,
-			username: results[0].username,
-			password: results[0].password
-	}
-		console.log(userProfile)
-
-		res.render('profile', userProfile)
 	});
 });
 
