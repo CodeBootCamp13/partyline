@@ -7,6 +7,13 @@
     <title>PartyLine</title>
     <link rel="stylesheet" href="/css/partyline.css">
 
+<script type="text/javascript">
+    function loadXMLDoc() {
+    loadXMLDoc();
+    setInterval(callServer, 10000);
+    }
+</script>
+
 </head>
 <body>
     <div class="sidebar">
@@ -74,11 +81,13 @@
                 </div>
                 <div class="chatform">
                     <div class="newMessage">
+                        <% for (let i = 0; 1 < messages.length; i++) { %>}
                         <form method="post" action="/party/<%= partyId %>">
                             <label for="newMessage"></label>
                             <input type="text" id="newMessage" name="newMessage" placeholder="Message Goes Here...">
                         </form>
                     </div>
+                    <% } %>
                 </div>
             </div>
         </div>
