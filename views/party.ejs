@@ -6,15 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PartyLine</title>
     <link rel="stylesheet" href="/css/partyline.css">
-
-<script type="text/javascript">
-    function loadXMLDoc() {
-    loadXMLDoc();
-    setInterval(callServer, 10000);
-    }
-</script>
-
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo">
@@ -71,23 +64,44 @@
             </div>
             <div class="chat">
                 <div class="messages">
-                    <% for ( let i = 0; i < messages.length; i++ ) { %>
+                    <% 
+                    var highestID = 0; 
+                    
+                    
+                    for ( let i = 0; i < messages.length; i++ ) {
+                        if ( messages[i].id > highestID ) {
+                            highestID = messages[i].id;
+                        }
+                        
+                        
+                    %>
                     <div class="message"> 
                         <div class="username">User <%= messages[i].user_id %></div>
                         <div class="timestamp"><%= messages[i].sent_on %></div>
                         <div class="messageText"><%= messages[i].message %></div>
                     </div>
 					<% } %>
+                    <script> 
+                    let highestID = <%= highestID %>;
+                    </script>
+
+                    <script>
+                        var loadMessages = function(){
+                            // make xmlhttprequest object
+                            // tell xmlhttprequest where it's going
+                            // write call back function 
+                            // send the request
+                        }
+                    </script>
+
                 </div>
                 <div class="chatform">
                     <div class="newMessage">
-                        <% for (let i = 0; 1 < messages.length; i++) { %>}
                         <form method="post" action="/party/<%= partyId %>">
                             <label for="newMessage"></label>
                             <input type="text" id="newMessage" name="newMessage" placeholder="Message Goes Here...">
                         </form>
                     </div>
-                    <% } %>
                 </div>
             </div>
         </div>
