@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PartyLine</title>
     <link rel="stylesheet" href="/css/partyline.css">
+    <script src="partyline.js" defer></script>
 
 </head>
 <body>
@@ -61,7 +62,9 @@
             <div class="chat">
                 <div class="messages">
                     <% 
+                    let newestMessageId = 0;
 					for ( let i = 0; i < messages.length; i++ ) {
+                        newestMessageId = messsages[i].id;
 					%>
                     <div class="message"> 
                         <div class="username">User <%= messages[i].user_id %></div>
@@ -69,6 +72,10 @@
                         <div class="messageText"><%= messages[i].message %></div>
                     </div>
 					<% } %>
+                    <script>
+                        var newestMessage = <%=newestMessageId%>;
+                        var party_id = <%=partyId%>;
+                    </script>
                 </div>
 				<% if ( user_id ) { %>
                 <div class="chatform">
@@ -87,3 +94,4 @@
     </div>
 </body>
 </html>
+
