@@ -180,7 +180,6 @@ app.get('/party/:party_id', (req, res) => {
 			connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
 				templateArgs.messages = results;
 
-
 				connection.query(
 					'SELECT id,name FROM parties WHERE parent_id = ?', 
 					[req.params.party_id],
@@ -188,6 +187,7 @@ app.get('/party/:party_id', (req, res) => {
 						if ( results.length ) {
 							templateArgs.subParties = results;
 						}
+						console.log(templateArgs);
 						res.render('party', templateArgs);
 					}
 				
@@ -294,6 +294,7 @@ app.get('/user/:user_id', (req, res) => {
 });
 
 app.get('/api/party/:party_id/:message_id' ,(req,res) => {
+	// TODO - send back the timestamp and user id
 	connection.query('SELECT id, party_id, message FROM messages WHERE party_id = ? AND id > ?', [ req.params.party_id, req.params.message_id ], (err, results) => {
 		res.json(results);
 	});
