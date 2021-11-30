@@ -225,7 +225,7 @@ app.get('/search', (req, res) => {
 	let searchQuery = '%' + req.query.query + '%';
 
 	// TODO: search for parties as well... 
-	let templateObj = { messages: [], parties: [] };
+	let templateObj = { messages: [], parties: [], num_users: [] };
 
 	connection.query(
 		'SELECT id,name FROM parties WHERE name LIKE ? OR description LIKE ?',
@@ -239,7 +239,17 @@ app.get('/search', (req, res) => {
 				[ searchQuery ],
 				(err, results) => {
 					templateObj.messages = results;
-					res.render('search', templateObj);
+					connection.query(
+						'SELECT MAX(user_id) FROM parties',
+						(err, results) => {
+							if (err) {
+								console.log(err);
+							} else {
+								templateObj.num_users = results;
+								res.render('search', templateObj);
+							}
+						} 
+					);
 				} 
 			);
 
