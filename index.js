@@ -240,12 +240,14 @@ app.get('/search', (req, res) => {
 				(err, results) => {
 					templateObj.messages = results;
 					connection.query(
-						'SELECT MAX(user_id) FROM parties',
+						'SELECT COUNT(user_id) FROM parties',
 						(err, results) => {
 							if (err) {
 								console.log(err);
 							} else {
-								templateObj.num_users = results;
+								console.log("These are the results!")
+								console.log(results);
+								templateObj.num_users = results[0]['COUNT(user_id)'];
 								res.render('search', templateObj);
 							}
 						} 
