@@ -161,7 +161,7 @@ app.get('/party/:party_id', (req, res) => {
 	// query the database to fetch the name/description of the party
 	// requested in the URL
 	connection.query(
-		'SELECT name,description FROM parties WHERE id = ?', 
+		'SELECT name,description FROM parties JOIN mainpartyName.party_id = parties.id WHERE id = ?', 
 		[ req.params.party_id ], 
 		(err, results) => {
 
@@ -174,7 +174,7 @@ app.get('/party/:party_id', (req, res) => {
 				partyName: results[0].name, 
 				partyDescription: results[0].description,
 				messages: [],
-				subParties: []
+				subParties: req.params.party_id,
 			};
 
 			connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
