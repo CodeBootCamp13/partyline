@@ -58,7 +58,7 @@ a {
 .search {
 	display: flex;
 	justify-content: flex-end;
-	padding-right:37px;
+	padding-right:20px;
 }
 
 .sidemenu {
@@ -76,12 +76,19 @@ a {
 	background-color: #4E5869;
 	height: 100vh;
 	width: 75vw;
+	display:flex;
+	flex-direction: column;
 }
 
 .message {
 	background-color: #37404D;
 	padding: 0px;
 	border: 1px solid;
+}
+
+.messages{
+	overflow-y: auto;
+	height: 80vh;
 }
 
 
@@ -172,12 +179,12 @@ button:hover {
 
 .cancel_container {
     padding: 16px;
-  }
+}
 
 span.psw {
     float: right;
     padding-top: 16px;
-  }
+}
 
 
 .message:nth-child(even) {
@@ -208,5 +215,36 @@ span.psw {
 	}
 }
 
+.userprofile{
+	overflow:hidden;
+
+}
+
+.userprofile a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 10px 12px;
+	text-decoration: none;
+	font-size: 17px;
+}
+
+.userprofile a:hover {
+	background-color: #ddd;
+	color: black;
+}
+.userprofile a.username {
+	background-color: #04AA6D;
+	color: white;
+}
+
+.userprofile a.username:hover {
+	background-color:#343B48;
+	color:#04AA6D
+}
 
 
+input {
+	height: 30px;
+	width: 200px;
+}
