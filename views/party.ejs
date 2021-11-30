@@ -71,8 +71,10 @@
                         <div class="username">User <%= messages[i].user_id %></div>
                         <div class="timestamp"><%= messages[i].sent_on %></div>
                         <div class="messageText"><%= messages[i].message %></div>
+                        
                     </div>
 					<% } %>
+                    
                     <script>
                         var newestMessage = <%=newestMessageId%>;
                         var party_id = <%=partyId%>;
