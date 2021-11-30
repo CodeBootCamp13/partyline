@@ -94,7 +94,6 @@ app.get('/party/:party_id/new', (req, res) => {
 app.post('/party/:party_id/new', (req, res) => {
 	var user_id = res.locals.user_id;
 	connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [req.params.party_id, user_id, req.body.name, req.body.description], (err, results) =>{
-		console.log(results.insertId)
 		connection.query(
 			'INSERT INTO user_parties (user_id, party_id) VALUES (?, ?)',
 			[ user_id, results.insertId ],
