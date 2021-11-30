@@ -174,7 +174,7 @@ app.get('/party/:party_id', (req, res) => {
 				partyName: results[0].name, 
 				partyDescription: results[0].description,
 				messages: [],
-				subParties: [],
+				subParties: []
 			};
 
 			connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
