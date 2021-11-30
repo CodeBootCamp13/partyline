@@ -167,7 +167,7 @@ app.get('/party/:party_id', (req, res) => {
 	// query the database to fetch the name/description of the party
 	// requested in the URL
 	connection.query(
-		'SELECT name,description FROM parties WHERE id = ?', 
+		'SELECT parties.name, parties.description, parent.name AS parent, parent.id AS parent_id FROM parties LEFT JOIN parties AS parent ON parties.party_id = parent.id WHERE parties.id = ?', 
 		[ req.params.party_id ], 
 		(err, results) => {
 
@@ -180,7 +180,8 @@ app.get('/party/:party_id', (req, res) => {
 				partyName: results[0].name, 
 				partyDescription: results[0].description,
 				messages: [],
-				subParties: []
+				subParties: [],
+				mainpartyName: results[0].parent
 			};
 
 			connection.query('SELECT id,user_id,message,sent_on FROM messages WHERE party_id = ?', [ req.params.party_id ], (err, results) => {
