@@ -92,11 +92,18 @@ app.get('/party/:party_id/new', (req, res) => {
 	res.render('createParty', { parent_id: req.params.party_id });
 });
 app.post('/party/:party_id/new', (req, res) => {
-	// todo (this will be where we handle this)
 	var user_id = res.locals.user_id;
 	connection.query('INSERT INTO parties (parent_id, user_id, name, description) VALUES (?,?,?,?)', [req.params.party_id, user_id, req.body.name, req.body.description], (err, results) =>{
-		console.log(results.insertId);
-		res.redirect('/party/'+ req.params.party_id);
+		console.log(results.insertId)
+		connection.query(
+			'INSERT INTO user_parties (user_id, party_id) VALUES (?, ?)',
+			[ user_id, results.insertId ],
+			
+			(err, results) => {
+				res.redirect('/party/'+ req.params.party_id);
+			}
+		)
+		
 	});
 });
 
