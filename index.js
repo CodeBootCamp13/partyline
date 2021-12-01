@@ -167,7 +167,7 @@ app.get('/party/:party_id', (req, res) => {
 	// query the database to fetch the name/description of the party
 	// requested in the URL
 	connection.query(
-		'SELECT messages.id,messages.user_id,message,sent_on,users.username FROM messages LEFT JOIN users ON messages.user_id = users.id WHERE party_id = ? ORDER BY users.username',
+		'SELECT parties.name, parties.description, parent.name AS parent, parent.id AS parent_id FROM parties LEFT JOIN parties AS parent ON parties.id = parent.id WHERE parties.id = ?',
 		[ req.params.party_id ], 
 		(err, results) => {
 

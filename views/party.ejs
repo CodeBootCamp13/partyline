@@ -68,10 +68,9 @@
                         newestMessageId = messages[i].id;
 					%>
                     <div class="message"> 
-                        <div class="username">User <%= messages[i].user_id %></div>
+                        <div class="username"><a href="/user/<%= messages[i].user_id %>"><%= messages[i].username %></a></div>
                         <div class="timestamp"><%= messages[i].sent_on %></div>
                         <div class="messageText"><%= messages[i].message %></div>
-                        <%=console.log(messages.[i].user_id) %>
                     </div>
 					<% } %>
                     
