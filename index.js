@@ -1,6 +1,8 @@
 const express = require('express');
 const session = require('express-session');
 const mysql   = require('mysql2');
+const bcrypt  = require('bcrypt');
+
 require('dotenv').config();
 
 const app = new express();
@@ -112,7 +114,7 @@ app.post('/party/:party_id/new', (req, res) => {
 app.get('/login', (req, res) => {
 	res.render('login');
 });
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
 	// TODO(actually let us log in)
 	
 	// the user has posted `username` and `password`
@@ -123,27 +125,28 @@ app.post('/login', (req, res) => {
 	let query = `
 		SELECT id,first_name,last_name,username,password FROM users WHERE username = ?
 	`;
-	connection.query(query, [ username ], (err,results) => {
+	connection.query(query, [ username ], async (err,results) => {
 
 		
 		if ( results.length ) {
 			let dbpass = results[0].password;
 			// if the password matches, log them in
-			console.log(dbpass + ' - ' + password);
-			if ( dbpass == password ) {
-				// we are logged in correctly
 
-				req.session.user_id = results[0].id;
-				req.session.username = results[0].username;
+			try {
+				if ( await bcrypt.compare(password, dbpass) ) {
+					// we are logged in correctly
 
-				return res.redirect('/user/' + results[0].id);
-			} 
+					req.session.user_id = results[0].id;
+					req.session.username = results[0].username;
+
+					return res.redirect('/user/' + results[0].id);
+				}
+			} catch {
+				res.status(500).send('Some error happened on login');
+			}
 		} 
 	
-		return res.redirect('/login?invalid');
-	
-		// otherwise, return them to the login page 
-		// todo(think about an error message)
+		return res.redirect('/login?invalid')
 
 	});
 
@@ -266,11 +269,34 @@ app.get('/account', (req, res) =>{
 	res.render('account');
 })
 
-app.post('/account', (req, res) => {
-	connection.query('INSERT INTO users (first_name, last_name, email, username, password) VALUES (?,?,?,?,?)', [req.body.first_name, req.body.last_name, req.body.email, req.body.username, req.body.password], (err, results) => {
-		console.log(req.body);
-		res.redirect('/search');
-	});
+app.post('/account', async (req, res) => {
+	
+	try {
+	
+		// encrypt our password, 
+		// generate salt
+		const salt = await bcrypt.genSalt();
+
+		// hash the password with that salt
+		const encryptedPassword = await bcrypt.hash(req.body.password, salt);
+		console.log(encryptedPassword);
+
+		connection.query('INSERT INTO users (first_name, last_name, email, username, password) VALUES (?,?,?,?,?)', 
+			[req.body.first_name, req.body.last_name, req.body.email, req.body.username, encryptedPassword], (err, results) => {
+			console.log(req.body);
+			res.redirect('/');
+		});
+
+	} catch {
+		// an error was found
+		res.status(500).send('Some error occurred');
+	}
+
+
+
+	// store the encrypted password
+
+	
 })
 
 app.get('/user/:user_id', (req, res) => {
