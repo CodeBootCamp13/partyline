@@ -8,10 +8,11 @@ require('dotenv').config();
 const app = new express();
 
 const connection = mysql.createPool({
-	host: 'localhost',
-	user: 'root',
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
-	database: 'partyline',
+	database: process.env.DB_SCHEMA,
+	port: process.env.DB_PORT,
 	waitForConnections: true,
 	connectionLimit: 10,
 	queueLimit: 0
