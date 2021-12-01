@@ -51,15 +51,15 @@ a {
 }
 
 .logo img { 
-	height: 100px;
-	height: 200px;
-    padding-left: 15px;
+	width: 200px;
+	height: 55px;
+    padding: 20px;
 }
 
 .search {
 	display: flex;
 	justify-content: flex-end;
-	padding-right: 6px;
+	padding: 20px;
 }
 
 .sidemenu {
