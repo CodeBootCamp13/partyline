@@ -83,9 +83,10 @@
 				<% if ( user_id ) { %>
                 <div class="chatform">
                     <div class="newMessage">
-                        <form method="post" action="/party/<%= partyId %>">
+                        <form id="newMessage" method="post" action="/party/<%= partyId %>">
                             <label for="newMessage"></label>
-                            <input type="text" id="newMessage" name="newMessage" placeholder="Message Goes Here...">
+                            <textarea type="text" id="newMessage" name="newMessage" rows="4" cols="50" placeholder="Message Goes Here..."></textarea>
+                            <input type="submit" value="Submit">
                         </form>
                     </div>
                 </div>

@@ -29,3 +29,7 @@ function newMessages() {
 };
 
 setInterval(newMessages, 2000);
+
+const element = document.getElementsByClassName('message');
+
+element[element.length -1].scrollIntoView();
