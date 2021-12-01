@@ -30,7 +30,6 @@
         </div>
         <div class="main">
             <div class="sidemenu">
-                <h1> <%= mainpartyName %></h1>
                 <h2><%= partyName %></h2>
                 <p><%= partyDescription %></p>
 				<%
@@ -69,10 +68,9 @@
                         newestMessageId = messages[i].id;
 					%>
                     <div class="message"> 
-                        <div class="username">User <%= messages[i].user_id %></div>
+                        <div class="username"><a href="/user/<%= messages[i].user_id %>"><%= messages[i].username %></a></div>
                         <div class="timestamp"><%= messages[i].sent_on %></div>
                         <div class="messageText"><%= messages[i].message %></div>
-                        
                     </div>
 					<% } %>
                     
