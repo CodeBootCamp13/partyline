@@ -57,6 +57,7 @@ app.use(function(req, res, next) {
 			}
 		);
 	} else { 
+		res.locals.myParties = [];
 		// FOR GUESTS
 		// grab a list of all our parties
 		connection.query('SELECT id,name FROM parties ORDER BY name LIMIT 10', (err, results) => {
@@ -228,7 +229,7 @@ app.get('/search', (req, res) => {
 	let templateObj = { messages: [], parties: [], num_users: [] };
 
 	connection.query(
-		'SELECT id,name FROM parties WHERE name LIKE ? OR description LIKE ?',
+		'SELECT parties.id,name,count(up.user_id) as count_users FROM parties LEFT JOIN user_parties AS up ON parties.id = up.party_id WHERE name LIKE ? OR description LIKE ? GROUP BY parties.id',
 		[ searchQuery, searchQuery ],
 		(err, results) => {
 
@@ -239,19 +240,7 @@ app.get('/search', (req, res) => {
 				[ searchQuery ],
 				(err, results) => {
 					templateObj.messages = results;
-					connection.query(
-						'SELECT COUNT(user_id) FROM parties',
-						(err, results) => {
-							if (err) {
-								console.log(err);
-							} else {
-								console.log("These are the results!")
-								console.log(results);
-								templateObj.num_users = results[0]['COUNT(user_id)'];
-								res.render('search', templateObj);
-							}
-						} 
-					);
+					res.render('search', templateObj);
 				} 
 			);
 

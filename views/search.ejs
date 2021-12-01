@@ -45,7 +45,7 @@
 							%>
                             <tr>
                             <td><a style="color:white;" href="/party/<%= parties[i].id %>"><%= parties[i].name %></a></td>
-                            <td><%= num_users %></td>
+                            <td><%= parties[i].count_users %></td>
                             <td>
 								<% if ( myParties[ parties[i].id ] ) { %> 
 									<p>Subscribed</p>
