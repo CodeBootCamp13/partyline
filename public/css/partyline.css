@@ -181,12 +181,18 @@ td{
 
 input[type=text], input[type=password] {
     width: 98.5%;
-	height: 100px;
+	height: 40px;
     padding: 12px 20px;
     margin: 10px;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+}
+
+#newMessage {
+	width: 97%;
+	height: 100px;
+	padding: 2px 20px;
 }
 
 .join a, 
