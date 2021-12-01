@@ -53,9 +53,9 @@ a {
 }
 
 .logo img { 
-	height: 100px;
-	height: 200px;
-    padding-left: 15px;
+	width: 200px;
+	height: 55px;
+    padding: 20px;
 }
 
 .search {
@@ -181,6 +181,7 @@ td{
 
 input[type=text], input[type=password] {
     width: 98.5%;
+	height: 100px;
     padding: 12px 20px;
     margin: 10px;
     display: inline-block;
