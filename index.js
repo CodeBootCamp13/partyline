@@ -185,7 +185,6 @@ app.get('/party/:party_id', (req, res) => {
 			connection.query('SELECT messages.id,messages.user_id,message,sent_on,users.username FROM messages LEFT JOIN users ON messages.user_id = users.id WHERE party_id = ? ORDER BY users.username', 
 			[req.params.party_id ], (err, results) => {
 				templateArgs.messages = results;
-				console.log(results)
 
 				connection.query(
 					'SELECT id,name FROM parties WHERE parent_id = ?', 
