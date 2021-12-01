@@ -1,7 +1,7 @@
 <div class="userprofile">
 	<% if ( user_id ) { %> 
 	<a class="username" href="/user/<%= user_id %>"><%= username %></a>
-	<a href="/logout">Logout</a>
+	<a class="logout" href="/logout">Logout</a>
 	<% } else {  %>
 	<a href="/login">Login</a>
 	<a href="/account">Create Account</a>
