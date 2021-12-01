@@ -58,6 +58,13 @@ a {
     padding: 20px;
 }
 
+.home {
+	text-align: center;
+	width: 100vw;
+	height: 100vh;
+	background-color: #4E5869;
+	padding-top: 50px;
+}
 .search {
 	display: flex;
 	justify-content: flex-end;
