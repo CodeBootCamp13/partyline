@@ -44,12 +44,13 @@
 								for ( let i = 0; i < parties.length; i++ ) { 
 							%>
                             <tr>
-                            <td><a style="color:#000;" href="/party/<%= parties[i].id %>"><%= parties[i].name %></a></td>
-                            <td>6,000</td>
+                            <td><a style="color:white;" href="/party/<%= parties[i].id %>"><%= parties[i].name %></a></td>
+                            <td><%= parties[i].count_users %></td>
                             <td>
 								<% if ( myParties[ parties[i].id ] ) { %> 
 									<p>Subscribed</p>
 								<% } else { %>
+                                    <br>
 								<form method="post" action="/subscribe/<%= parties[i].id %>"><input type="submit" value="Join Party"></form>
 								<% } %>
 							</td>

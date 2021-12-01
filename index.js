@@ -57,6 +57,7 @@ app.use(function(req, res, next) {
 			}
 		);
 	} else { 
+		res.locals.myParties = [];
 		// FOR GUESTS
 		// grab a list of all our parties
 		connection.query('SELECT id,name FROM parties ORDER BY name LIMIT 10', (err, results) => {
@@ -224,10 +225,10 @@ app.get('/search', (req, res) => {
 	let searchQuery = '%' + req.query.query + '%';
 
 	// TODO: search for parties as well... 
-	let templateObj = { messages: [], parties: [] };
+	let templateObj = { messages: [], parties: [], num_users: [] };
 
 	connection.query(
-		'SELECT id,name FROM parties WHERE name LIKE ? OR description LIKE ?',
+		'SELECT parties.id,name,count(up.user_id) as count_users FROM parties LEFT JOIN user_parties AS up ON parties.id = up.party_id WHERE name LIKE ? OR description LIKE ? GROUP BY parties.id',
 		[ searchQuery, searchQuery ],
 		(err, results) => {
 
