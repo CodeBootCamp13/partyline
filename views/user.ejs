@@ -26,15 +26,14 @@
                 <%- include('partials/searchBar') %>
             </div>
         </div>
-        <div> <%=firstName%></div>
-        <div> <%=lastName%></div>
-        <div> <%=email%></div>
-        <div> <%=username%></div>
-        <div> <%=password%></div>
+        <div> 
+            <h1><strong>My Parties</strong></h1>
+        </div>
 
         <div class="subs">
             <% for ( let i = 0; i < Subs.length; i++ ) { %>
             <div class="subscriptionlist"> 
+                <br>
                 <div class="partySubs"> <a href="/party/<%=Subs[i].party_id %>"><%= Subs[i].name %></a></div> 
             </div>
             <% } %>
