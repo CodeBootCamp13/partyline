@@ -31,10 +31,11 @@
         </div>
 
         <div class="subs">
-            <% for ( let i = 0; i < Subs.length; i++ ) { %>
+            <% 
+				for ( let i = 0; i < subs.length; i++ ) { %>
             <div class="subscriptionlist"> 
                 <br>
-                <div class="partySubs"> <a href="/party/<%=Subs[i].party_id %>"><%= Subs[i].name %></a></div> 
+                <div class="partySubs"> <a href="/party/<%= subs[i].party_id %>"><%= subs[i].name %></a></div> 
             </div>
             <% } %>
         </div>

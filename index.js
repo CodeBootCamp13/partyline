@@ -310,12 +310,11 @@ app.get('/user/:user_id', (req, res) => {
 				email: results[0].email,
 				username: results[0].username,
 				password: results[0].password,
-				Subs: []
-				
+				subs: []
 			};
 
-			connection.query('SELECT up.id, up.party_id, up.user_id, parties.name FROM partyline.user_parties AS up LEFT JOIN parties ON up.party_id = parties.id WHERE up.user_id = ?', [req.params.user_id],(err, results) => {
-				userProfile.Subs = results;
+			connection.query('SELECT up.id, up.party_id, up.user_id, parties.name FROM user_parties AS up LEFT JOIN parties ON up.party_id = parties.id WHERE up.user_id = ?', [req.params.user_id],(err, results) => {
+				userProfile.subs = results;
 
 				res.render('user', userProfile);
 			})
